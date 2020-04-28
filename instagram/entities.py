@@ -233,3 +233,4 @@ class Comment(Element):
         self.owner = owner
         self.text = text
         self.created_at = created_at
+        self.comments = set()

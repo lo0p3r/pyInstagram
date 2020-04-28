@@ -278,6 +278,19 @@ class WebAgent:
                                 owner=Account(node["owner"]["username"]),
                                 text=node["text"],
                                 created_at=node["created_at"])
+                    thread_data = node['edge_threaded_comments']
+                    if len(thread_data['edges']) > 0:
+                        thread_page_info = thread_data["page_info"]
+                        thread_edges = thread_data['edges']
+                        for thread_index in range(min(len(thread_edges), count)):
+                            thread_node = thread_edges[thread_index]["node"]
+                            thread_c = Comment(thread_node["id"], media=media,
+                                               owner=Account(thread_node["owner"]["username"]),
+                                               text=thread_node["text"],
+                                               created_at=thread_node["created_at"])
+                            c.comments.add(thread_c)
+                        thread_pointer = thread_page_info["end_cursor"] if thread_page_info["has_next_page"] else None
+                        # TODO thread comments needs to load like root comments
                     media.comments.add(c)
                     comments.append(c)
 
@@ -325,6 +338,19 @@ class WebAgent:
                                 owner=Account(node["owner"]["username"]),
                                 text=node["text"],
                                 created_at=node["created_at"])
+                    thread_data = node['edge_threaded_comments']
+                    if len(thread_data['edges']) > 0:
+                        thread_page_info = thread_data["page_info"]
+                        thread_edges = thread_data['edges']
+                        for thread_index in range(min(len(thread_edges), count)):
+                            thread_node = thread_edges[thread_index]["node"]
+                            thread_c = Comment(thread_node["id"], media=media,
+                                               owner=Account(thread_node["owner"]["username"]),
+                                               text=thread_node["text"],
+                                               created_at=thread_node["created_at"])
+                            c.comments.add(thread_c)
+                        thread_pointer = thread_page_info["end_cursor"] if thread_page_info["has_next_page"] else None
+                        # TODO thread comments needs to load like root comments
                     media.comments.add(c)
                     comments.append(c)
                 
